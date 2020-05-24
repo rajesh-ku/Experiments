@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace HealthAPI
 {
@@ -35,11 +36,24 @@ namespace HealthAPI
 
             services.AddDbContext<HealthContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
+
+            // Register the Swagger API Generator
+            services.AddSwaggerGen( options => {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Health Check API ", Version = "v1"} );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Enable middleware to serve generated Swagger as a JSON endpoint 
+            app.UseSwagger();
+
+            // Specify teh Swagger JSON end point
+            app.UseSwaggerUI(option => {
+                option.SwaggerEndpoint("/swagger/v1/swagger.json", "Health Check API v1");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

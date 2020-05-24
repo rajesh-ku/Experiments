@@ -1,6 +1,6 @@
 **DotNet Core - Starter Application**
 
-Step by step guide - Examp etaken from => https://www.youtube.com/watch?v=EXIzgR-JSwg
+Step by step guide - Example taken from => https://www.youtube.com/watch?v=EXIzgR-JSwg
 
 
 -- Dotnet Core Commands
@@ -70,10 +70,24 @@ dotnet tool install -g Microsoft.Web.LibraryManager.Cli
 -- Add JQuery
 libman install jquery --provider cdnjs --destination wwwroot/scripts/jquery -files=jquery.min.js 
 
-
 - Start both the servers (API as well as Client)
 - Run the ClientWeb application
 - Cross Origin Resource Sharing - Blocked
 
+* ADD Swagger into the HealthAPI Project
+dotnet add package Swashbuckle.AspNetCore
 
+- Add to the Services
+// Register the Swagger API Generator
+services.AddSwaggerGen( options => {
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Health Check API ", Version = "v1"} );
+});
 
+- Add code to Swagger Middleware in Configure
+// Enable middleware to serve generated Swagger as a JSON endpoint 
+app.UseSwagger();
+
+// Specify teh Swagger JSON end point
+app.UseSwaggerUI(option => {
+    option.SwaggerEndpoint("/swagger/v1/swagger.json", "Health Check API v1");
+});
