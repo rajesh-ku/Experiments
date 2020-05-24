@@ -1,6 +1,6 @@
 **DotNet Core - Starter Application**
 
-Step by step guide - Examp etaken from => https://www.youtube.com/watch?v=EXIzgR-JSwg
+Step by step guide - Example taken from => https://www.youtube.com/watch?v=EXIzgR-JSwg
 
 
 -- Dotnet Core Commands
